@@ -34,7 +34,7 @@ class ExchangeRateService
     /**
      * Update all rates
      */
-    public function updateAllRates(): bool|float
+    public function updateAllRates()
     {
         // Получаем массив валют для парсинга со статусом true
         $currencies = ExchangeRate::where('status', true)->where('type', 'fiat')->pluck('currency')->toArray();
@@ -44,11 +44,10 @@ class ExchangeRateService
             // If is currency in array
             if (in_array(mb_strtolower($item->CharCode), $currencies)) {
 
-                return $this->updateRate(mb_strtolower($item->CharCode), $item->Value);
+                // Update rate in bd
+                $this->updateRate(mb_strtolower($item->CharCode), $this->modRate($item->Value));
             }
         }
-
-        return false;
     }
 
 
