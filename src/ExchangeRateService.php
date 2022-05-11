@@ -106,7 +106,7 @@ class ExchangeRateService
     public function getCurrencyRate($currency): mixed
     {
         $rate = ExchangeRate::where('currency', mb_strtolower($currency))->get()->first();
-        return $rate->rate ?? $this->getRate($currency);
+        return $rate->rate ?? (new ExchangeRateService)->getRate($currency);
     }
 
 }
